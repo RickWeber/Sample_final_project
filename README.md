@@ -2,4 +2,4 @@
 
 Here is where I will work on a sample final project for **R for Econ**.
 
-My current idea is a cribbage generator.
+This project is an R program that looks at XYZ.
