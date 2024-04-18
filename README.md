@@ -1,5 +1,6 @@
-# ECO 365 Sample Project
+# Water tank web scraping project
 
-Here is where I will work on a sample final project for **R for Econ**.
-
-This project is an R program that looks at XYZ.
+I will use `rvest` to extract price 
+and dimension information from 
+`tank-mart.com` to allow sorting by
+dollars per gallon.
