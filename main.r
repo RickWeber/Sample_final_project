@@ -6,7 +6,6 @@ base_url <- "https://www.tank-mart.com/"
 water_tank_url <- "plastic-tanks/water-storage-tanks/"
 vertical_tank_url <- "plastic-tanks/vertical-storage-tanks/"
 rv_tank_url <- "rv-marine-tanks/rv-water-tanks/"
-
 ingest_page <- function(rel_url){
   page <- read_html(paste0(base_url, rel_url))
   data <- html_table(page)[[1]] %>% 
@@ -34,3 +33,28 @@ ingest_page <- function(rel_url){
 cylindrical_tanks <- ingest_page(water_tank_url)
 vertical_tanks <- ingest_page(vertical_tank_url)
 rv_tanks <- ingest_page(rv_tank_url)
+for(page in 2:4){
+  rv_tanks <- rv_tanks %>%
+    full_join(ingest_page(
+      paste0(rv_tank_url, "?page=", page)
+    ))
+}
+
+
+tanks <- full_join(cylindrical_tanks, vertical_tanks) %>%
+  full_join(rv_tanks)
+
+tanks %>%
+  filter(capacity <= 150,
+         capacity > 30,
+         floor_space > 0,
+#         height > 15,
+         width < 20) %>%
+  select(10:17) %>% 
+#  sample_n(17) %>%
+  arrange(dol_per_gal) %>%
+  write_csv('tank_prices.csv')
+
+# TODO:
+# * generate visualizations.
+# * make Shiny app
