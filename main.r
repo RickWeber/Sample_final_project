@@ -12,6 +12,7 @@ ingest_page <- function(rel_url){
     as_tibble() %>%
     mutate(price = str_remove(Price, '\\$') %>%
              as.numeric(),
+           # extra href from 'Name' text.
            capacity = str_remove(Capacity, 'Gallons') %>%
              as.numeric(),
            length = str_remove(Length, '\'\'') %>%
@@ -42,7 +43,9 @@ for(page in 2:4){
 
 
 tanks <- full_join(cylindrical_tanks, vertical_tanks) %>%
-  full_join(rv_tanks)
+  full_join(rv_tanks) %>%
+  write_csv('tank_prices.csv')
+
 
 tanks %>%
   filter(capacity <= 150,
@@ -52,9 +55,7 @@ tanks %>%
          width < 20) %>%
   select(10:17) %>% 
 #  sample_n(17) %>%
-  arrange(dol_per_gal) %>%
-  write_csv('tank_prices.csv')
-
+  arrange(dol_per_gal)
 # TODO:
 # * generate visualizations.
 # * make Shiny app
