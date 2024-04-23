@@ -57,5 +57,5 @@ tanks %>%
 #  sample_n(17) %>%
   arrange(dol_per_gal)
 # TODO:
-# * generate visualizations.
-# * make Shiny app
+# * pull product URLs while ingesting data. 
+# * add product URL links to Shiny visualization.
