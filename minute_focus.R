@@ -16,10 +16,21 @@ make_dot <- function(n_breaths = 5,
     rep(-1, fps * hold_empty)
   ) %>% 
     rep(n_breaths)
-  
+  action <- c(
+    rep('inhale', fps * inhale),
+    rep('hold', fps * hold_full),
+    rep('exhale', fps * exhale),
+    rep('hold', fps * hold_empty)
+  ) %>% 
+    rep(n_breaths)
+  df <- data.frame(
+    size = breath_cycle, 
+    time = 1:length(breath_cycle),
+    action = action 
+    )
   #initial_plot <- ggplot(data.frame(x=c(0,100), y=c(100,0)))
-  plot <- ggplot(data.frame(size = breath_cycle, time = 1:length(breath_cycle))) + 
-    geom_point(aes(size=size, x=50, y=50)) +
+  plot <- ggplot(df) + 
+    geom_point(aes(size=size, color = action, x=50, y=50)) +
     transition_states(time) +
     theme_void() +
     theme(legend.position = "none") +
@@ -30,9 +41,10 @@ make_dot <- function(n_breaths = 5,
          nframes = nframes,
          fps = fps
          )
-}
+} 
+make_dot(5, 3, 4, 3, 4)
 
-anim_save('test.gif', make_dot())
+anim_save('test.gif', make_dot(5, 3, 4, 3, 4))
 
 # TODO
 # * label with time
